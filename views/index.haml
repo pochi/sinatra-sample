@@ -82,10 +82,12 @@
     renderer: 'bar',
     series: [{
         color: 'steelblue',
-        data: dataset
+        data: dataset,
+        name: 'Taipei'
       },{
         color: 'lightblue',
-        data: stacked_dataset
+        data: stacked_dataset,
+        name: 'Japan'
     }]
   });
 
@@ -95,6 +97,12 @@
 
   var yAxis = new Rickshaw.Graph.Axis.Y({
     graph: line_graph
+  });
+
+  var hoverDetail = new Rickshaw.Graph.HoverDetail({
+    graph: line_graph,
+    xFormatter: function(x) { return x + "day" },
+    yFormatter: function(y) { return y + " $"}
   });
 
   //  var yAxis = new Rickshaw.Graph.Axis.Y({
