@@ -51,59 +51,25 @@
 
     %script{ :src => './jquery.min.js' }
     %script{ :src => './d3.v3.min.js' }
+    %script{ :src => './d3.layout.min.js' }
+    %script{ :src => './rickshaw.min.js' }
     %script{ :src => './bootstrap/js/bootstrap.min.js' }
 
 
 :javascript
   // It shows weekly data
-  var dataset = [ 5, 10, 13, 19, 21, 25, 22 ];
+  var dataset = [{ x:0, y:10 }, { x:1, y: 20 }];
   var width = 300;
   var height = 150;
-  var axiPadding = 30;
-  var padding = 1;
 
-  // x軸の定義
-  var xScale = d3.scale
-                 .linear()
-                 .range([0, width]).nice();
+  var line_graph = new Rickshaw.Graph({
+    element: document.querySelector("div#line_graph"),
+    width: width,
+    height: height,
+    series: [{
+        color: 'steelblue',
+        data: dataset
+      }]
+  });
 
-  var xAxis = d3.svg.axis().scale(xScale).orient("bottom");
-
-  // y軸の定義
-  var yScale = d3.scale.linear().range([height, 0]).nice();
-  var yAxis = d3.svg.axis().scale(yScale).orient("left");
-
-  // グラフ領域の確保
-  var bar_graph_svg = d3.select("div#line_graph")
-                        .append("svg")
-                        .attr("width", width)
-                        //.attr("width", function(d) { return xScale[d]; })
-                        .attr("height", height);
-
-  // グラフ部分の描画
-  bar_graph_svg.selectAll("rect")
-                .data(dataset)
-                .enter()
-                .append("rect")
-                .attr("x", function(d,i) {
-                  return i * (width / dataset.length);
-                })
-                .attr("y", function(d, i) {
-                  return height - (d * 4);
-                })
-                .attr("width", width / dataset.length - padding)
-                .attr("height", function(d) {
-                  return (d * 4) - axiPadding;
-                })
-                .attr("fill", "#e67e22");
-  // x軸の描画
-  bar_graph_svg.append("g")
-               .attr("class", "axis")
-               .attr("transform", "translate(0, " + (height - axiPadding) + ")")
-               .call(xAxis);
-
-  // y軸の描画
-  bar_graph_svg.append("g")
-             .attr("class", "axis")
-             .attr("transform", "translate(" + axiPadding + ",0 )")
-             .call(yAxis);
+  line_graph.render();
