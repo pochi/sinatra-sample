@@ -5,42 +5,49 @@
     %meta{ 'http-equiv' => 'content', 'content' => 'text/html; charset=utf-8'}
     %link{:rel => :stylesheet, :href => "./bootstrap/css/bootstrap.min.css"}
     %link{:rel => :stylesheet, :href => "./bootstrap/css/bootstrap-theme.min.css"}
+    %link{:rel => :stylesheet, :href => "./custom.css"}
     %title="tb platform"
 
   %body
-    .navbar
-      .navbar-inner
-        %a.brand{ :href => "#" } Bank consuite
-        %ul.nav.pull-right
-          %li
-            %a{ :href => "#" } Logout
-
-
-    .span3
-      %ul.nav.nav-list.well
-        %li.nav-header menu
-        %li
-          %a{ :href => "#" } menu1
-          %ul
+    #wrap
+      .navbar
+        .navbar-inner
+          %a.brand{ :href => "#" } Bank consuite
+          %ul.nav.pull-right
             %li
-              %a{ :href => "#" } sub menu1
-        %li
-          %a{ :href => "#" } menu2
+              %a{ :href => "#" } Logout
 
-    .span12
-      %h1 Graph area
-      .row
-        .span4#line_graph
-          line_graph
-        .span4#bar_graph
-          bar_graph
-        .span4#filter_table
-          line_graph2
-      .row
-        .span6
-          line_graph
-        .span6
-          bar_graph
+
+      .span3
+        %ul.nav.nav-list.well
+          %li.nav-header menu
+          %li
+            %a{ :href => "#" } menu1
+            %ul
+              %li
+                %a{ :href => "#" } sub menu1
+          %li
+            %a{ :href => "#" } menu2
+
+      .span12
+        %h1 Graph area
+        .row
+          .span4#line_graph
+            line_graph
+          .span4#bar_graph
+            bar_graph
+          .span4#filter_table
+            line_graph2
+        .row
+          .span6
+            line_graph
+          .span6
+            bar_graph
+
+    #footer
+      .container
+        %p.muted-credit ITP@2014
+
 
     %script{ :src => './jquery.min.js' }
     %script{ :src => './d3.v3.min.js' }
@@ -48,18 +55,29 @@
 
 
 :javascript
-  var dataset = [ 5, 10, 13, 19, 21, 25, 22, 18, 15, 13, 11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ];
-  var svg = d3.select("div#line_graph")
-              .append("svg")
-              .attr("width", 500 / dataset.length - 1)
-              .attr("height", 100);
-  svg.selectAll("rect")
-     .data(dataset)
-     .enter()
-     .append("rect")
-     .attr("x", function(d,i) {
-        return i * 21;
-      })
-     .attr("y", 0)
-     .attr("width", 20)
-     .attr("height", 100);
+  // It shows weekly data
+  var dataset = [ 5, 10, 13, 19, 21, 25, 22 ];
+  var width = 300;
+  var height = 150;
+  var padding = 1;
+
+  var bar_graph_svg = d3.select("div#line_graph")
+                        .append("svg")
+                        .attr("width", width)
+                        .attr("height", height);
+
+  bar_graph_svg.selectAll("rect")
+                .data(dataset)
+                .enter()
+                .append("rect")
+                .attr("x", function(d,i) {
+                  return i * (width / dataset.length);
+                })
+                .attr("y", function(d, i) {
+                  return height - (d * 4);
+                })
+                .attr("width", width / dataset.length - padding)
+                .attr("height", function(d) {
+                  return d * 4;
+                })
+                .attr("fill", "teal");
