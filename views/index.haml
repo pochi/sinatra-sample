@@ -33,13 +33,11 @@
       .span12
         %h1 Graph area
         .row
-          .span4#line_graph
-          .span4#bar_graph
-            bar_graph
+          .span4#bar_graph{ :style => "padding-top: 10px;" }
+          .span4#line_graph{ :style => "padding-top: 10px;" }
           .span4#filter_table
-            line_graph2
         .row{ :style => "padding-top: 20px;" }
-          .span6
+          .span6#world_chart
             line_graph
           .span6
             bar_graph
@@ -75,8 +73,8 @@
   var width = 300;
   var height = 150;
 
-  var line_graph = new Rickshaw.Graph({
-    element: document.querySelector("div#line_graph"),
+  var bar_graph = new Rickshaw.Graph({
+    element: document.querySelector("div#bar_graph"),
     width: width,
     height: height,
     renderer: 'bar',
@@ -92,15 +90,15 @@
   });
 
   var xAxis = new Rickshaw.Graph.Axis.Time({
-    graph: line_graph
+    graph: bar_graph
   });
 
   var yAxis = new Rickshaw.Graph.Axis.Y({
-    graph: line_graph
+    graph: bar_graph
   });
 
   var hoverDetail = new Rickshaw.Graph.HoverDetail({
-    graph: line_graph,
+    graph: bar_graph,
     xFormatter: function(x) { return x + "day" },
     yFormatter: function(y) { return y + " $"}
   });
@@ -108,5 +106,32 @@
   //  var yAxis = new Rickshaw.Graph.Axis.Y({
   //    graph: line_graph
   //  });
+
+  bar_graph.render();
+
+  var line_graph = new Rickshaw.Graph({
+    element: document.querySelector("div#line_graph"),
+    renderer: 'line',
+    width: width,
+    height: height,
+    series: [{
+      data: [ {x:0, y:10}, {x:1, y:20}, {x:3, y:150}, {x:4, y:80}],
+      name: 'Taipei',
+      color: 'steelblue'
+    }, {
+      data: [ {x:0, y:5}, {x:1, y:40}, {x:3, y:1000}, {x:4, y:60}],
+      name: 'Japan',
+      color: 'lightblue'
+    }]
+  });
+
+
+  var line_xAxis = new Rickshaw.Graph.Axis.Time({
+    graph: line_graph
+  });
+
+  var line_yAxis = new Rickshaw.Graph.Axis.Y({
+    graph: line_graph
+  });
 
   line_graph.render();
