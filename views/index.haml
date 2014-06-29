@@ -6,6 +6,7 @@
     %link{:rel => :stylesheet, :href => "./bootstrap/css/bootstrap.min.css"}
     %link{:rel => :stylesheet, :href => "./bootstrap/css/bootstrap-theme.min.css"}
     %link{:rel => :stylesheet, :href => "./rickshaw.min.css"}
+    %link{:rel => :stylesheet, :href => "./jqvmap/jqvmap.css"}
     %link{:rel => :stylesheet, :href => "./custom.css"}
     %title="tb platform"
 
@@ -33,12 +34,11 @@
       .span12
         %h1 Graph area
         .row
-          .span4#bar_graph{ :style => "padding-top: 10px;" }
-          .span4#line_graph{ :style => "padding-top: 10px;" }
-          .span4#filter_table
+          .span5#bar_graph{ :style => "padding-top: 10px;" }
+          .span5#line_graph{ :style => "padding-top: 10px;" }
+          .span2#filter_table
         .row{ :style => "padding-top: 20px;" }
-          .span6#world_chart
-            line_graph
+          .span6#vmap{ :style => "width: 450px; height: 300px; " }
           .span6
             bar_graph
 
@@ -52,7 +52,9 @@
     %script{ :src => './d3.layout.min.js' }
     %script{ :src => './rickshaw.min.js' }
     %script{ :src => './bootstrap/js/bootstrap.min.js' }
-
+    %script{ :src => './jqvmap/jquery.vmap.js' }
+    %script{ :src => './jqvmap/maps/jquery.vmap.world.js' }
+    %script{ :src => './jqvmap/data/jquery.vmap.custom.js' }
 
 :javascript
   // It shows weekly data
@@ -71,7 +73,7 @@
                  { x:5, y:5 },
                  { x:6, y:20 }];
   var width = 300;
-  var height = 150;
+  var height = 200;
 
   var bar_graph = new Rickshaw.Graph({
     element: document.querySelector("div#bar_graph"),
@@ -135,3 +137,20 @@
   });
 
   line_graph.render();
+
+  jQuery('#vmap').vectorMap({
+      map: 'world_en',
+      backgroundColor: null,
+      color: '#ffffff',
+      hoverOpacity: 0.7,
+      selectedColor: '#666666',
+      enableZoom: true,
+      showTooltip: true,
+      values: initialize_world_data,
+      scaleColors: ['#C8EEFF', '#006491'],
+      normalizeFunction: 'polynomial',
+      onRegionOver: function(e, code) {
+        console.log(e);
+        console.log(code);
+      }
+  });
