@@ -5,6 +5,7 @@
     %meta{ 'http-equiv' => 'content', 'content' => 'text/html; charset=utf-8'}
     %link{:rel => :stylesheet, :href => "./bootstrap/css/bootstrap.min.css"}
     %link{:rel => :stylesheet, :href => "./bootstrap/css/bootstrap-theme.min.css"}
+    %link{:rel => :stylesheet, :href => "./rickshaw.min.css"}
     %link{:rel => :stylesheet, :href => "./custom.css"}
     %title="tb platform"
 
@@ -33,12 +34,11 @@
         %h1 Graph area
         .row
           .span4#line_graph
-            line_graph
           .span4#bar_graph
             bar_graph
           .span4#filter_table
             line_graph2
-        .row
+        .row{ :style => "padding-top: 20px;" }
           .span6
             line_graph
           .span6
@@ -58,7 +58,20 @@
 
 :javascript
   // It shows weekly data
-  var dataset = [{ x:0, y:10 }, { x:1, y: 20 }];
+  var dataset = [{ x:0, y:10 },
+                 { x:1, y:20 },
+                 { x:2, y:18 },
+                 { x:3, y:30 },
+                 { x:4, y:22 },
+                 { x:5, y:50 },
+                 { x:6, y:70 }];
+  var stacked_dataset = [{ x:0, y:8 },
+                 { x:1, y:30 },
+                 { x:2, y:10 },
+                 { x:3, y:3 },
+                 { x:4, y:1 },
+                 { x:5, y:5 },
+                 { x:6, y:20 }];
   var width = 300;
   var height = 150;
 
@@ -66,10 +79,26 @@
     element: document.querySelector("div#line_graph"),
     width: width,
     height: height,
+    renderer: 'bar',
     series: [{
         color: 'steelblue',
         data: dataset
-      }]
+      },{
+        color: 'lightblue',
+        data: stacked_dataset
+    }]
   });
+
+  var xAxis = new Rickshaw.Graph.Axis.Time({
+    graph: line_graph
+  });
+
+  var yAxis = new Rickshaw.Graph.Axis.Y({
+    graph: line_graph
+  });
+
+  //  var yAxis = new Rickshaw.Graph.Axis.Y({
+  //    graph: line_graph
+  //  });
 
   line_graph.render();
