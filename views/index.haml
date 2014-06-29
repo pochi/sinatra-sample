@@ -150,7 +150,15 @@
       scaleColors: ['#C8EEFF', '#006491'],
       normalizeFunction: 'polynomial',
       onRegionOver: function(e, code) {
-        console.log(e);
+        //console.log(e);
+        //console.log(code);
+      },
+      onLabelShow: function(e, el, code) {
+        var base_html = el.html();
+        var current_value = 0;
+
+        console.log(base_html);
         console.log(code);
+        el.html(base_html + " : " + initialize_world_data[code]);
       }
   });
